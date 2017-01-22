@@ -1,0 +1,79 @@
+@import "variables";
+
+.container {
+  width: 75%;
+  margin: 0 auto;
+
+  .post {
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+
+    .text {
+      padding-left: 10px;
+      vertical-align: top;
+      word-wrap: break-word;
+      
+      .text__header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .text__title {
+          margin: 0;
+          align-self: center;
+        }
+
+        .post__score {
+          padding-left: 10px;
+          padding-right: 10px;
+
+          .post__counter {
+            color: black;
+            font-size: 150%;
+            vertical-align: middle;
+            text-align: center;
+          }
+
+          .post__arrow {
+            width: 0;
+            margin: 0 auto;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+          }
+
+          .post__arrow--up {
+            border-bottom: 15px solid $c__grey--light;
+
+            &:hover { 
+              border-bottom: 15px solid $c__green;
+              transition: border-bottom 250ms;
+              cursor: pointer;
+            }
+          }
+          
+          .post__arrow--down {
+            border-top: 15px solid $c__grey--light;
+
+            &:hover { 
+              border-top: 15px solid $c__red;
+              transition: border-top 250ms;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+
+      .text__content {
+        font-size: 18px;
+        padding-right: 10px;
+        line-height: 1.5;
+        margin-top: 10px;
+      }
+    }
+  }
+
+  @media (max-width: $s__breakpoint--small) {
+    width: 100%;
+  }
+}
