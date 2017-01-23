@@ -16,7 +16,7 @@ export default class App extends React.Component {
     );*/
     return (
       <div className="container">
-        <Navigation question={this.props.id}/>
+        <Navigation question={this.props.question}/>
         <Input/>
       </div>
     )

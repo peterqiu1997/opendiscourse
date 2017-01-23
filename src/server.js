@@ -6,7 +6,7 @@ import routes from './app/components/routes';
 import template from './template';
 
 const app = express();
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const DataModel = require('./model.js');
 const bodyParser = require('body-parser');
 const port = process.env.PORT || 3000;
@@ -24,22 +24,32 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 app.get('*', (req, res) => {
-  console.log(req.url);
+  const url=req.url.slice(1);
   match({ routes: routes, location: req.url }, (err, redirect, props) => {
     const appString = renderToString(<RouterContext {...props}/>)
-    res.send(template({
-      body: appString,
-      title: 'server routing',
-      initialState: safeStringify({ id: '1234' })
-    }));
+    if (req.url != "/") {
+      DataModel.findOne({ 'id': url }, 'question', function (err, result) {
+        if (err) return console.log(err);
+        res.send(template({
+          body: appString,
+          title: 'server routing',
+          initialState: safeStringify({ question: result.question })
+        }));
+      })
+    } else {
+      res.send(template({
+        body: appString,
+        title: 'server routing',
+        initialState: safeStringify({ question: '' })
+      }));
+    }
   });
 });
 
 app.post('/save', (req, res) => {
-  const key = req.body.id
   const modelID = new DataModel({
-    id: key,
-    question: "Do you really like pringles?"
+    id: req.body.id,
+    question: req.body.question
   });
   // save to database
   modelID.save(function(err) {

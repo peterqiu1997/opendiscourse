@@ -6,6 +6,7 @@ export default ({ body, title, initialState }) => {
         <title>${title}</title>
         <link rel="stylesheet" href="/assets/index.css" />
         <link href="https://fonts.googleapis.com/css?family=Raleway:200" rel="stylesheet">
+        <link rel="icon" href="data:;base64,iVBORw0KGgo=">
       </head>
       
       <body>
