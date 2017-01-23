@@ -1,12 +1,10 @@
 import React from 'react';
-// import io from 'socket.io-client';
 import Navigation from './Navigation.js';
 import Header from './Header.js';
 import Post from './Post.js';
 import Input from './Input.js';
 
 export default class App extends React.Component { 
-
   constructor(props) {
     super(props);
   }

@@ -3,7 +3,6 @@ export default ({ body, title, initialState }) => {
     <!DOCTYPE html>
     <html>
       <head>
-        <script>window.__APP_INITIAL_STATE__ = ${initialState}</script>
         <title>${title}</title>
         <link rel="stylesheet" href="/assets/index.css" />
         <link href="https://fonts.googleapis.com/css?family=Raleway:200" rel="stylesheet">
@@ -11,6 +10,7 @@ export default ({ body, title, initialState }) => {
       
       <body>
         <div id="root">${body}</div>
+        <script>window.__APP_INITIAL_STATE__ = ${initialState}</script>
         <script src="/assets/bundle.js" defer></script>
       </body>
     </html>
