@@ -12,9 +12,11 @@ export default class Landing extends React.Component {
     this.state = {
       question: ""
     };
+    this.flag = false;
   }
 
   handleClick(e) {
+    e.preventDefault();
     const hashids = new Hashids("this is my salt", 8, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
     const id = hashids.encode(new Date().getTime());
     const xhttp = new XMLHttpRequest();
@@ -31,7 +33,11 @@ export default class Landing extends React.Component {
     };
     xhttp.open('POST', '/save', true);
     xhttp.setRequestHeader("Content-Type", "application/json");
+    while (!this.flag) {
+
+    }
     xhttp.send(this.safeStringify({ id: id, question: this.state.question }));
+    this.flag = false;
   }
 
   safeStringify(obj) {
@@ -43,7 +49,9 @@ export default class Landing extends React.Component {
   }
 
   handleChange(e) {
-    this.setState({ question: e.target.value });
+    this.setState({ question: e.target.value }, () => {
+      this.flag = true;
+    });
   }
 
   render() {
