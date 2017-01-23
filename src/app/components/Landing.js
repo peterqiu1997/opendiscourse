@@ -14,7 +14,8 @@ export default class Landing extends React.Component {
     xhttp.onreadystatechange = function() {
       if (xhttp.readyState === XMLHttpRequest.DONE) {
         if (xhttp.status === 200) {
-          alert("Successful post: " + xhttp.responseText);
+          // navigate to hashed path
+          browserHistory.push('/' + id);
         } else {
           alert('There was a problem with the request.');
         }
@@ -22,7 +23,15 @@ export default class Landing extends React.Component {
     };
     xhttp.open('POST', '/save', true);
     xhttp.setRequestHeader("Content-Type", "application/json");
-    xhttp.send('{"hello": "Hellooooooo from client"}');
+    xhttp.send(this.safeStringify({ id: id }));
+  }
+
+  safeStringify(obj) {
+    return JSON.stringify(obj)
+      .replace(/<\/(script)/ig, '<\\/$1')
+      .replace(/<!--/g, '<\\!--')
+      .replace(/\u2028/g, '\\u2028') // Only necessary if interpreting as JS, which we do
+      .replace(/\u2029/g, '\\u2029') // Ditto
   }
 
   render() {
@@ -30,8 +39,7 @@ export default class Landing extends React.Component {
     return (
       <div className="landing">
         <h1>THIS IS THE LANDING PAGE</h1>
-        <Link to="/app">App</Link>
-        <span onClick={this._handleClick.bind(this)}>Alternate Link</span>
+        <span onClick={this._handleClick.bind(this)}>New Question</span>
       </div>
     );
   }

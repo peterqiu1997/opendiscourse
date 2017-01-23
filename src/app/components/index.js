@@ -10,16 +10,13 @@ export default class App extends React.Component {
   }
 
   render() {
-    const positions = [true, false, true, false, true, false, true, false]; // TODO: MOVE THIS SOMEWHERE ELSE.
+    /*const positions = [true, false, true, false, true, false, true, false]; // TODO: MOVE THIS SOMEWHERE ELSE.
     const posts = positions.map((bool, index) =>
       <Post key={index} pro={bool}/>
-    );
-    const { isMobile } = this.props;
+    );*/
     return (
       <div className="container">
-        <h1>hello world {isMobile ? 'mobile' : 'desktop'}</h1>
-        <Navigation question={"Do I really like Pringles?"}/>
-        {posts}
+        <Navigation question={this.props.id}/>
         <Input/>
       </div>
     )
