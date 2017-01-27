@@ -4,16 +4,17 @@ import { match, RouterContext } from 'react-router';
 import { renderToString } from 'react-dom/server';
 import routes from './app/components/routes';
 import template from './template';
+import mongoose from 'mongoose';
 
 const app = express();
-import mongoose from 'mongoose';
 const DataModel = require('./model.js');
 const bodyParser = require('body-parser');
 const port = process.env.PORT || 3000;
 
 const server = app.listen(port);
+const io=require('socket.io')(server);
 
-const dbString = "mongodb://heroku_4sr5ldpv:dgrg5e22e6md9uhrndeuknoe5f@ds023105.mlab.com:23105/heroku_4sr5ldpv"
+const dbString = "mongodb://heroku_4sr5ldpv:dgrg5e22e6md9uhrndeuknoe5f@ds023105.mlab.com:23105/heroku_4sr5ldpv" // dev db 
 
 mongoose.connect(dbString, function(err, res) {
     if (err) { alert(err); }
@@ -25,22 +26,23 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 app.get('*', (req, res) => {
   const url=req.url.slice(1);
-  match({ routes: routes, location: req.url }, (err, redirect, props) => {
-    const appString = renderToString(<RouterContext {...props}/>)
+  match({ routes: routes, location: req.url }, (err, redirect, renderProps) => {
+    const appString = renderToString(<RouterContext {...renderProps}/>)
     if (req.url != "/") {
-      DataModel.findOne({ 'id': url }, 'question', function (err, result) {
+      DataModel.findOne({ 'id': url }, function (err, result) {
         if (err) return console.log(err);
+        console.log(result);
         res.send(template({
           body: appString,
           title: 'server routing',
-          initialState: safeStringify({ question: result.question })
+          initialState: safeStringify({ data: result })
         }));
       })
     } else {
       res.send(template({
         body: appString,
         title: 'server routing',
-        initialState: safeStringify({ question: '' })
+        initialState: safeStringify({ data: '' })
       }));
     }
   });

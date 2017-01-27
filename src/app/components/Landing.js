@@ -23,17 +23,15 @@ export default class Landing extends React.Component {
     xhttp.onreadystatechange = function() {
       if (xhttp.readyState === XMLHttpRequest.DONE) {
         if (xhttp.status === 200) {
-          // navigate to hashed path
-          browserHistory.push('/' + id);
-          window.location.reload(); // TODO a little hacky, how to get new page from express? GET request causes conflict?
+          window.location.href = '/' + id; // TODO a little hacky?
         } else {
-          alert('There was a problem with the request.');
+          console.log('There was a problem with the request.');
         }
       }
     };
     xhttp.open('POST', '/save', true);
     xhttp.setRequestHeader("Content-Type", "application/json");
-    while (!this.flag) {
+    while (!this.flag) { // TODO a little hacky?
 
     }
     xhttp.send(this.safeStringify({ id: id, question: this.state.question }));
@@ -58,7 +56,6 @@ export default class Landing extends React.Component {
     return (
       <div className="landing">
         <h1>THIS IS THE LANDING PAGE</h1>
-        <span onClick={this.handleClick}>New Question</span>
         <form onSubmit={this.handleClick}>
           <label>
             Question:
